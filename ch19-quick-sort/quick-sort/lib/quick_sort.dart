@@ -1,3 +1,5 @@
+import 'stack.dart';
+
 List<E> quicksortNaive<E extends Comparable<dynamic>>(
   List<E> list,
 ) {
@@ -164,4 +166,25 @@ Range _partitionDutchFlag<T extends Comparable<dynamic>>(
     }
   }
   return Range(smaller, larger);
+}
+
+void quicksortIterativeLomuto<E extends Comparable<dynamic>>(
+  List<E> list,
+) {
+  var stack = Stack<int>();
+  stack.push(0);
+  stack.push(list.length - 1);
+  while (stack.isNotEmpty) {
+    final high = stack.pop();
+    final low = stack.pop();
+    final pivot = _partitionLomuto(list, low, high);
+    if (pivot - 1 > low) {
+      stack.push(low);
+      stack.push(pivot - 1);
+    }
+    if (pivot + 1 < high) {
+      stack.push(pivot + 1);
+      stack.push(high);
+    }
+  }
 }
